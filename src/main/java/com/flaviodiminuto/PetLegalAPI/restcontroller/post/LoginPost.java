@@ -28,25 +28,27 @@ public class LoginPost implements LogTrace {
     ApresentacaoToEntity<Login, LoginEntity> mapper;
 
     @PostMapping
-    public ResponseEntity post(@RequestBody Login login) throws NoSuchMethodException {
+    public ResponseEntity<MessageTraceavel> post(@RequestBody Login login) throws NoSuchMethodException {
         initTrace(this.getClass());
+        MessageTraceavel eMessage ;
+        HttpStatus status;
         logMetodoAtual("Inicio");
         try{
             LoginEntity entity = mapper.toEntity(login);
             usecase.save(entity);
+            logMetodoAtual("POST 201 => ");
+            eMessage = prepareMessage(Mensagem.SALVO_COM_SUCESSO);
+            status = HttpStatus.CREATED;
         }catch (Exception e){
-            logMetodoAtual(e.getMessage());
-            MessageTraceavel eMessage = getEMessage(Mensagem.INTERNAL_ERROR);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-                    body(eMessage);
+            logMetodoAtual("POST 500 => \n" + e.getMessage() + "\n");
+            eMessage = prepareMessage(Mensagem.INTERNAL_ERROR);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }catch (SalvarIdentificadorExistente e){
             logMetodoAtual("POST 406 =>");
-            MessageTraceavel eMessage = getEMessage(e.getMenssagemSImples());
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-                    .body(eMessage);
+            eMessage= prepareMessage(e.getMenssagemSImples());
+            status = HttpStatus.NOT_ACCEPTABLE;
         }
-        logMetodoAtual("POST 201 => ");
-        return ResponseEntity.status(HttpStatus.CREATED).body(getEMessage("Salvo com sucesso!"));
+        return ResponseEntity.status(status).body(eMessage);
     }
 
     public void logMetodoAtual(String mensagem) throws NoSuchMethodException {

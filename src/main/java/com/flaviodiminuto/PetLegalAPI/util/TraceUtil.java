@@ -17,7 +17,7 @@ public class TraceUtil {
         logger = LoggerFactory.getLogger(clazz);
     }
 
-    public static MessageTraceavel getEMessage(String message){
+    public static MessageTraceavel prepareMessage(String message){
         MessageTraceavel eMessage = new MessageTraceavel();
         eMessage.trace = TraceUtil.getTrace();
         eMessage.mensagem =  message;
