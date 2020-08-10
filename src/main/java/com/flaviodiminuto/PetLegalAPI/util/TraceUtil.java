@@ -1,5 +1,6 @@
 package com.flaviodiminuto.PetLegalAPI.util;
 
+import com.flaviodiminuto.PetLegalAPI.enumeradores.Mensagem;
 import com.flaviodiminuto.PetLegalAPI.model.apresentacao.MessageTraceavel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,10 @@ public class TraceUtil {
         logger = LoggerFactory.getLogger(clazz);
     }
 
-    public static MessageTraceavel prepareMessage(String message){
+    public static MessageTraceavel prepareMessage(Mensagem message){
         MessageTraceavel eMessage = new MessageTraceavel();
         eMessage.trace = TraceUtil.getTrace();
-        eMessage.mensagem =  message;
+        eMessage.mensagem =  message.toString();
         return eMessage;
     }
 

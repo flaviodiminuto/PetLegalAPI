@@ -40,7 +40,7 @@ public class SalvarLoginEntity {
         then()
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body(campoMensagem, equalTo(Mensagem.SALVO_COM_SUCESSO))
+                .body(campoMensagem, equalTo(Mensagem.SALVO_COM_SUCESSO.toString()))
                 .statusCode(201);
     }
 
@@ -53,7 +53,7 @@ public class SalvarLoginEntity {
                 post(recurso).
         then().
                 assertThat().
-                body(campoMensagem, equalTo(Mensagem.IDENTIFICADOR_INDISPONIVEL)).
+                body(campoMensagem, equalTo(Mensagem.IDENTIFICADOR_INDISPONIVEL.toString())).
                 contentType(ContentType.JSON).
                 statusCode(406);
     }
@@ -69,7 +69,7 @@ public class SalvarLoginEntity {
         then().
                 assertThat().
                 contentType(ContentType.JSON).
-                body(campoMensagem, equalTo(Mensagem.INTERNAL_ERROR)).
+                body(campoMensagem, equalTo(Mensagem.INTERNAL_ERROR.toString())).
                 statusCode(500);
     }
 
