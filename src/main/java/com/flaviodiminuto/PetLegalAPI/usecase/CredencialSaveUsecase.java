@@ -14,14 +14,15 @@ public class CredencialSaveUsecase implements SaveUsecase<CredencialEntity> {
     CrudRepository<CredencialEntity,Long> repository;
 
     @Override
-    public boolean save(CredencialEntity credencial) {
+    public boolean save(CredencialEntity credencial) throws NoSuchMethodException {
         String encrypt = Base64Utils.encodeToString(credencial.getPasse().getBytes());
         credencial.setPasse(encrypt);
+        logMetodoAtual(credencial.toString(), "Salvando");
         return repository.save(credencial).getId() != null;
     }
 
     @Override
-    public void logMetodoAtual(String mensagem) throws NoSuchMethodException {
-        logTrace(getClass(),getClass().getMethod("save", CredencialEntity.class).getName(), mensagem);
+    public void logMetodoAtual(String mensagem, String metodo) throws NoSuchMethodException {
+        logTrace(getClass(),getClass().getMethod(metodo, CredencialEntity.class).getName(), mensagem);
     }
 }

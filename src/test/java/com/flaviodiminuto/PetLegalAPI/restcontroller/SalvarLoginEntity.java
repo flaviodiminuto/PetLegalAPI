@@ -3,7 +3,7 @@ package com.flaviodiminuto.PetLegalAPI.restcontroller;
 import com.flaviodiminuto.PetLegalAPI.enumeradores.Mensagem;
 import com.flaviodiminuto.PetLegalAPI.model.build.LoginBuilder;
 import com.flaviodiminuto.PetLegalAPI.model.entity.LoginEntity;
-import com.flaviodiminuto.PetLegalAPI.restcontroller.post.LoginPost;
+import com.flaviodiminuto.PetLegalAPI.restcontroller.post.LoginController;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.Test;
@@ -61,7 +61,7 @@ public class SalvarLoginEntity {
     @Test
     public void testCadastroException500(){
         RestAssuredMockMvc.given().
-                standaloneSetup(LoginPost.class).
+                standaloneSetup(LoginController.class).
                 body(entity).
                 contentType(ContentType.JSON).
         when().

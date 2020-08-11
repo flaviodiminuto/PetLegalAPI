@@ -91,9 +91,7 @@
 				<configuration>
 					<release>14</release>
 					<compilerArgs>--enable-preview</compilerArgs>
-                    <source>13</source>
-                    <target>13</target>
-                </configuration>
+				</configuration>
             </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -102,6 +100,11 @@
 				<configuration>
 					<argLine>--enable-preview</argLine>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>LATEST</version>
 			</plugin>
         </plugins>
 	</build>

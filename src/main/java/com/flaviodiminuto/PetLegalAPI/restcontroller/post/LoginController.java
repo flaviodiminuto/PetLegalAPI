@@ -19,7 +19,7 @@ import static com.flaviodiminuto.PetLegalAPI.util.TraceUtil.*;
 
 @RestController
 @RequestMapping("/credencial")
-public class LoginPost implements LogTrace {
+public class LoginController implements LogTrace {
 
     @Autowired
     SaveUsecase<LoginEntity> usecase;
@@ -29,29 +29,31 @@ public class LoginPost implements LogTrace {
 
     @PostMapping
     public ResponseEntity<MessageTraceavel> post(@RequestBody Login login) throws NoSuchMethodException {
+        String method = "post";
         initTrace(this.getClass());
         MessageTraceavel eMessage ;
         HttpStatus status;
-        logMetodoAtual("Inicio");
+        logMetodoAtual("Inicio",method);
         try{
             LoginEntity entity = mapper.toEntity(login);
             usecase.save(entity);
-            logMetodoAtual("POST 201 => ");
+            logMetodoAtual("POST 201 => ",method);
             eMessage = prepareMessage(Mensagem.SALVO_COM_SUCESSO);
             status = HttpStatus.CREATED;
         }catch (Exception e){
-            logMetodoAtual("POST 500 => \n" + e.getMessage() + "\n");
+            logMetodoAtual("POST 500 => \n" + e.getMessage() + "\n",method);
             eMessage = prepareMessage(Mensagem.INTERNAL_ERROR);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }catch (SalvarIdentificadorExistente e){
-            logMetodoAtual("POST 406 =>");
+            logMetodoAtual("POST 406 =>",method);
             eMessage= prepareMessage(e.getMenssagemSImples());
             status = HttpStatus.NOT_ACCEPTABLE;
         }
         return ResponseEntity.status(status).body(eMessage);
     }
 
-    public void logMetodoAtual(String mensagem) throws NoSuchMethodException {
-        logTrace(this.getClass(), this.getClass().getMethod("post", Login.class).getName() , mensagem);
+    @Override
+    public void logMetodoAtual(String mensagem, String method) throws NoSuchMethodException {
+        logTrace(this.getClass(), this.getClass().getMethod(method, Login.class).getName() , mensagem);
     }
 }

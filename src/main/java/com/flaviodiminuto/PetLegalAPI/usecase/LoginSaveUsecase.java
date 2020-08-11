@@ -19,7 +19,7 @@ public class LoginSaveUsecase implements SaveUsecase<LoginEntity> {
 
     @Override
     public boolean save(LoginEntity entity) throws SalvarIdentificadorExistente, NoSuchMethodException {
-        logMetodoAtual("Preparando para salver Login");
+        logMetodoAtual("Preparando para salver Login", "save");
         entity.setDataCriacao(LocalDateTime.now());
         String mask = Base64Utils.encodeToString(entity.getIdentificador().getBytes());
         entity.setIdentificador(mask);
@@ -31,7 +31,7 @@ public class LoginSaveUsecase implements SaveUsecase<LoginEntity> {
     }
 
     @Override
-    public void logMetodoAtual(String mensagem) throws NoSuchMethodException {
-        TraceUtil.logTrace(this.getClass(), this.getClass().getMethod("save", LoginEntity.class).getName(),mensagem);
+    public void logMetodoAtual(String mensagem, String metodo) throws NoSuchMethodException {
+        TraceUtil.logTrace(this.getClass(), this.getClass().getMethod(metodo, LoginEntity.class).getName(),mensagem);
     }
 }
