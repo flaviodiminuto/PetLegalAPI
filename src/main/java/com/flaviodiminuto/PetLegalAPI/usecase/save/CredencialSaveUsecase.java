@@ -1,8 +1,7 @@
-package com.flaviodiminuto.PetLegalAPI.usecase;
+package com.flaviodiminuto.PetLegalAPI.usecase.save;
 
 import com.flaviodiminuto.PetLegalAPI.model.entity.CredencialEntity;
-import com.flaviodiminuto.PetLegalAPI.usecase.interfaces.SaveUsecase;
-import com.flaviodiminuto.PetLegalAPI.util.TraceUtil;
+import com.flaviodiminuto.PetLegalAPI.usecase.save.SaveUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.util.Base64Utils;

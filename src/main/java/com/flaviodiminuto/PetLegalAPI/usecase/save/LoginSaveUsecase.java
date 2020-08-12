@@ -1,9 +1,9 @@
-package com.flaviodiminuto.PetLegalAPI.usecase;
+package com.flaviodiminuto.PetLegalAPI.usecase.save;
 
 import com.flaviodiminuto.PetLegalAPI.exception.SalvarIdentificadorExistente;
 import com.flaviodiminuto.PetLegalAPI.model.entity.LoginEntity;
 import com.flaviodiminuto.PetLegalAPI.repository.LoginRepository;
-import com.flaviodiminuto.PetLegalAPI.usecase.interfaces.SaveUsecase;
+import com.flaviodiminuto.PetLegalAPI.usecase.save.SaveUsecase;
 import com.flaviodiminuto.PetLegalAPI.util.TraceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,14 +20,16 @@ public class LoginSaveUsecase implements SaveUsecase<LoginEntity> {
     @Override
     public boolean save(LoginEntity entity) throws SalvarIdentificadorExistente, NoSuchMethodException {
         logMetodoAtual("Preparando para salver Login", "save");
+
+        entity.setIdentificador(Base64Utils.encodeToString(entity.getIdentificador().getBytes()));
+        entity.setSenha(Base64Utils.encodeToString(entity.getSenha().getBytes()));
         entity.setDataCriacao(LocalDateTime.now());
-        String mask = Base64Utils.encodeToString(entity.getIdentificador().getBytes());
-        entity.setIdentificador(mask);
 
         if(repository.findByIdentificador(entity.getIdentificador()) != null)
             throw new SalvarIdentificadorExistente();
-        else
+        else {
             return repository.save(entity).getId() != null;
+        }
     }
 
     @Override
